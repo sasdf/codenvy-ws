@@ -22,6 +22,7 @@ RUN apt-get update && \
     python-pip \
     python3-pip \
     nodejs \
+    npm \
     software-properties-common \
     python-software-properties \
     build-essential \
