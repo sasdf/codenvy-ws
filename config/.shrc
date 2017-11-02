@@ -1,0 +1,97 @@
+# This file should contain aliases, shell variables, and functios,
+# those cannot be passed to child process.
+#
+# Ref to .profile for details
+#
+
+# check xon/xoff settings
+# stty -a | egrep -o -- '-?\<(ix\w*|start|stop)'
+
+if [ -t 0 ]; then # term test?
+    # Turn off TTY "start" and "stop" commands in all interactive shells.
+    # They default to C-q and C-s, Bash uses C-s to do a forward history search.
+    stty start ''
+    stty stop  ''
+    stty -ixon # disable XON/XOFF flow control
+    stty ixoff # enable sending (to app) of start/stop characters
+    stty ixany # let any character restart output, not only start character
+fi
+
+## Standard Aliases
+alias less='less -R'
+alias mv='mv -i'
+alias cp='cp -i'
+alias rm='rm -i'
+alias dir='ls -lg|more'
+alias vi='vim'
+alias cls='clear'
+alias telnet='telnet -8'
+alias gdb='LC_ALL=en_US.UTF8 gdb'
+os=${OSTYPE/[^a-z]*/}
+
+case "$os" in
+"freebsd")
+	alias ls='ls -FG'
+	export LSCOLORS='ExGxFxdxCxDxDxhbadacad'
+	;;
+"linux")
+	alias ls='ls --color -F'
+	;;
+"solaris")
+	alias ls='ls --color --show-control-chars -F'
+	alias ping="ping -s"
+	;;
+esac
+
+## Extra aliases
+#
+alias grep=egrep
+alias talk=ytalk
+
+## Shell style
+#
+parse_git_branch() {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+if [ "$ASCIINEMA_REC" = "1" ] && [ "$ASCIINEMA_PS1" = "" ]; then
+  export PS1="$ "
+else
+  if [ $SHELL = "/bin/sh" ]; then
+    if [ "$WINDOW" != "" ]; then
+      export PS1="$LOGNAME@`hostname` [W$WINDOW] "
+    else 
+      export PS1="$LOGNAME@`hostname`$ "
+    fi
+  else 
+    if [ "$WINDOW" != "" ]; then
+      # export PS1="$LOGNAME@\h {\w} [W$WINDOW] "
+      export PS1="\n\[\033[32;1m\] \$ \w\[\033[33m\]\$(parse_git_branch)\n\[\033[36;1m\].. \[\033[0m\]"
+      export PS2='\[\033[33;1m\].. \[\033[0m\]'
+    else
+      # export PS1="\u@\h [\w] "
+      export PS1="\n\[\033[32;1m\] \$ \w\[\033[33m\]\$(parse_git_branch)\n\[\033[36;1m\].. \[\033[0m\]"
+      export PS2='\[\033[33;1m\].. \[\033[0m\]'
+    fi
+  fi
+fi
+
+# Tmux env update
+if [ -n "$TMUX" ]; then                                                                               
+  function refresh () {                                                                                
+    NEWENVVAR=$(tmux show-environment | grep "^SSH_AUTH_SOCK=")                                       
+    if [ -n "$NEWENVVAR" ]; then
+      echo "SSH_AUTH_SOCK updated"
+      export $NEWENVVAR
+    fi
+    NEWENVVAR=$(tmux show-environment | grep "^DISPLAY=")                                       
+    if [ -n "$NEWENVVAR" ]; then
+      echo "DISPLAY updated"
+      export $NEWENVVAR
+    fi
+  }                                                                                                 
+else                                                                                                  
+  function refresh () {
+    echo "Not inside tmux"
+  }                                                                              
+fi

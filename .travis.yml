@@ -1,0 +1,16 @@
+sudo: required
+
+services:
+  - docker
+ 
+script:
+  - docker build -t codenvy-ws .
+
+after_success:
+  - |
+    if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker tag codenvy-ws "$DOCKER_USERNAME/codenvy-ws";
+    docker push "$DOCKER_USERNAME/codenvy-ws";
+    echo "push"
+    fi
