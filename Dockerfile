@@ -26,6 +26,7 @@ RUN apt-get update && \
     python-software-properties \
     build-essential \
     cmake \
+    mono-xbuild \
     python-dev \
     bash-completion && \
     mkdir /var/run/sshd && \
