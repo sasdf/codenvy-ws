@@ -14,6 +14,7 @@ RUN apt-get update && \
     mc \
     ca-certificates \
     curl \
+    tzdata \
     netcat \
     vim \
     tmux \
