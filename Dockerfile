@@ -14,7 +14,6 @@ RUN apt-get update && \
     mc \
     ca-certificates \
     curl \
-    tzdata \
     netcat \
     vim \
     tmux \
@@ -27,6 +26,7 @@ RUN apt-get update && \
     python-software-properties \
     build-essential \
     cmake \
+    tzdata \
     python-dev \
     bash-completion && \
     mkdir /var/run/sshd && \
@@ -36,17 +36,8 @@ RUN apt-get update && \
     usermod -p "*" user && \
     add-apt-repository ppa:git-core/ppa && \
     add-apt-repository ppa:openjdk-r/ppa && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
-    echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | sudo tee /etc/apt/sources.list.d/mono-official.list && \
     apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y install \
-    mono-devel \
-    mono-complete \
-    referenceassemblies-pcl \
-    ca-certificates-mono \
-    git \
-    subversion && \
+    sudo apt-get install git subversion -y && \
     apt-get clean && \
     apt-get -y autoremove && \
     sudo apt-get install openjdk-8-jdk-headless=8u131-b11-2ubuntu1.16.04.3 openjdk-8-source=8u131-b11-2ubuntu1.16.04.3 -y && \
@@ -81,10 +72,10 @@ RUN sudo locale-gen en_US.UTF-8 && \
     sed -i 's/# store-plaintext-passwords = no/store-plaintext-passwords = yes/g' /home/user/.subversion/servers && \
     git clone https://github.com/VundleVim/Vundle.vim.git /home/user/.vim/bundle/Vundle.vim && \
     vim +PluginInstall +qall && \
-    cd /home/user/.vim/bundle/YouCompleteMe/third_party/ycmd && \
+    cd /home/user/.vim/bundle/YouCompleteMe/ && \
     git submodule update --init --recursive && \
-    export NoCompilerStandardLib=false && \
-    ./build.py --all && \
+    npm install -g typescript && \
+    ./install.py --clang-completer --js-completer && \
     cp /home/user/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py /home/user/.vim/
     
 EXPOSE 22 4403
