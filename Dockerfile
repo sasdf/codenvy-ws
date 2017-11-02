@@ -40,7 +40,7 @@ RUN apt-get update && \
     sudo update-ca-certificates -f && \
     sudo sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure && \
     apt-get -y clean && \
-    pip3 install ipython && \
+    pip install ipython pandas numpy tqdm toolz matplotlib Pillow && \
     rm -rf /var/lib/apt/lists/*
 
 ENV LANG en_GB.UTF-8
