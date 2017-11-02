@@ -37,6 +37,7 @@ RUN apt-get update && \
     add-apt-repository ppa:git-core/ppa && \
     add-apt-repository ppa:openjdk-r/ppa && \
     apt-get update && \
+    apt-get -y upgrade && \
     sudo apt-get install git subversion -y && \
     apt-get clean && \
     apt-get -y autoremove && \
