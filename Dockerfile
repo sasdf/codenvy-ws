@@ -76,7 +76,7 @@ RUN sudo locale-gen en_US.UTF-8 && \
     vim +PluginInstall +qall && \
     cd /home/user/.vim/bundle/YouCompleteMe/ && \
     git submodule update --init --recursive && \
-    npm install -g typescript && \
+    sudo npm install -g typescript && \
     ./install.py --clang-completer --js-completer && \
     cp /home/user/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py /home/user/.vim/
     
