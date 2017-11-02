@@ -17,7 +17,10 @@ RUN apt-get update && \
     netcat \
     vim \
     tmux \
+    python \
     python3 \
+    python-pip \
+    python3-pip \
     nodejs \
     software-properties-common \
     python-software-properties \
