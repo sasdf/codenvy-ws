@@ -43,7 +43,10 @@ RUN apt-get update && \
     sudo update-ca-certificates -f && \
     sudo sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure && \
     apt-get -y clean && \
-    pip install ipython pandas numpy tqdm toolz matplotlib Pillow && \
+    pip3 -U pip && \
+    pip2 -U pip && \
+    pip3 install ipython pandas numpy tqdm toolz matplotlib Pillow && \
+    pip2 install ipython==5.4 pandas numpy tqdm toolz matplotlib Pillow && \
     rm -rf /var/lib/apt/lists/*
 
 ENV LANG en_GB.UTF-8
