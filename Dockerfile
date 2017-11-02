@@ -100,6 +100,7 @@ RUN for f in "/home/user" "/etc/passwd" "/etc/group" "/projects"; do\
         sed s#root:x:0:#root:x:0:0,\${USER_ID}:#g \
         > /home/user/group.template && \
         sudo sed -ri 's/StrictModes yes/StrictModes no/g' /etc/ssh/sshd_config && \
+        mkdir -p /home/user/.ssh && \
         echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAokUVgSOW5+AS65hDO4yC1DBdoBN31zpOdsSR9DgkuxuZAVIX14kNXcbMpDDkloV7lA0rXKARlXYBYueiH/wGqgx7om7C+fixh4+USiKZhFbEtJ2sm4oF/ZZpcqRuo4EW47hR8KZTvDV3XbRx2ATTmrR0tQs++8+KO5WR/11CUqfdWSU+9P74FL/NFLA/6KvF7qMlLm8BzEUVar7FYSPUe3wff+3UD7nafqNSpUntTP2E+eajjH2oDPHogan5zPigcrk140ZfXkbCVe00oFowxbZ6srR+adkFvWef4VjjCzqH494SiC1nVqgN7OfQzFrb4uD3KNwjh3zTi9Hc/QsoHQ== codenvy' >> /home/user/.ssh/authorized_keys
 COPY ["entrypoint.sh","/home/user/entrypoint.sh"]
 ENTRYPOINT ["/home/user/entrypoint.sh"]
